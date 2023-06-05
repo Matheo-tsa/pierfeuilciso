@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pier Feuil Ciso</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Jeu Pier Feuil Ciso</h1>
+      <div id="game">
+        <p class="subtitle">Choisissez entre pier, feuil et ciso :</p>
+        <div class="buttons">
+          <button class="button is-primary" id="btn-pierre">Pier</button>
+          <button class="button is-primary" id="btn-feuille">Feuil</button>
+          <button class="button is-primary" id="btn-ciseaux">Ciso</button>
+        </div>
+        <p class="subtitle" id="resultat"></p>
+        <button class="button is-info" id="btn-rejouer" style="display: none;">Rejouer</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Fonction pour générer le choix de l'ordinateur (pierre, feuille ou ciseaux)
+    function choixOrdinateur() {
+      var choix = Math.floor(Math.random() * 3);
+      if (choix === 0) {
+        return "pierre";
+      } else if (choix === 1) {
+        return "feuille";
+      } else {
+        return "ciseaux";
+      }
+    }
+
+    // Fonction pour vérifier le résultat du jeu
+    function verifierResultat(choixJoueur, choixOrdinateur) {
+      if (choixJoueur === choixOrdinateur) {
+        return "match nul";
+      } else if (
+        (choixJoueur === "pierre" && choixOrdinateur === "ciseaux") ||
+        (choixJoueur === "feuille" && choixOrdinateur === "pierre") ||
+        (choixJoueur === "ciseaux" && choixOrdinateur === "feuille")
+      ) {
+        return "joueur gagne";
+      } else {
+        return "ordinateur gagne";
+      }
+    }
+
+    // Fonction principale pour exécuter le jeu
+    function jouer(choixJoueur) {
+      var choixOrd = choixOrdinateur();
+      var resultat = verifierResultat(choixJoueur, choixOrd);
+
+      var resultatElement = document.getElementById("resultat");
+      resultatElement.textContent = "Vous avez choisi : " + choixJoueur + " \nL'ordinateur a choisi : " + choixOrd + "\nRésultat : " + resultat;
+      resultatElement.style.display = "block";
+
+      var btnRejouer = document.getElementById("btn-rejouer");
+      btnRejouer.style.display = "block";
+    }
+
+    // Fonction pour réinitialiser le jeu
+    function rejouer() {
+      var resultatElement = document.getElementById("resultat");
+      resultatElement.textContent = "";
+      resultatElement.style.display = "none";
+
+      var btnRejouer = document.getElementById("btn-rejouer");
+      btnRejouer.style.display = "none";
+    }
+
+    // Écouteurs d'événements pour les boutons de choix du joueur
+    var btnPierre = document.getElementById("btn-pierre");
+    btnPierre.addEventListener("click", function() {
+      jouer("pierre");
+    });
+
+    var btnFeuille = document.getElementById("btn-feuille");
+    btnFeuille.addEventListener("click", function() {
+      jouer("feuille");
+    });
+
+    var btnCiseaux = document.getElementById("btn-ciseaux");
+    btnCiseaux.addEventListener("click", function() {
+      jouer("ciseaux");
+    });
+
+    // Écouteur d'événement pour le bouton "Rejouer"
+    var btnRejouer = document.getElementById("btn-rejouer");
+    btnRejouer.addEventListener("click", function() {
+      rejouer();
+    });
+  </script>
+</body>
+
+</html>
